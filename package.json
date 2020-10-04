@@ -1,0 +1,20 @@
+{
+  "name": "carforyou-ad-data-fetcher",
+  "version": "1.0.0",
+  "description": "Prefetches data in a headless browser so we can server-side render ads",
+  "scripts": {
+    "fetch:preprod": "CYPRESS_BASE_URL=https://preprod.carforyou.ch CYPRESS_ADS_ENV=stage-preprod cypress run --browser=chrome",
+    "fetch:prod": "CYPRESS_BASE_URL=https://www.carforyou.ch CYPRESS_ADS_ENV=stage-prod cypress run --browser=chrome",
+    "test": "CYPRESS_ADS_ENV=stage-preprod cypress run --browser=chrome",
+    "dev": "npx serve -l 3333"
+  },
+  "author": "CAR FOR YOU",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^5.3.0",
+    "cypress-log-to-output": "^1.1.2"
+  },
+  "devDependencies": {
+    "serve": "^11.3.2"
+  }
+}

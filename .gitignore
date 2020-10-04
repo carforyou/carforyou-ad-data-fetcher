@@ -1,0 +1,5 @@
+npm-debug.log*
+node_modules
+/cypress/videos
+/cypress/screenshots
+/cypress/data

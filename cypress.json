@@ -1,0 +1,14 @@
+{
+  "baseUrl": "http://localhost:3333",
+  "blockHosts": [
+    "*.google-analytics.com",
+    "*.googletagmanager.com",
+    "fonts.googleapis.com",
+    "*.criteo.com",
+    "*.criteo.net"
+  ],
+  "retries": {
+    "runMode": 1,
+    "openMode": 0
+  }
+}

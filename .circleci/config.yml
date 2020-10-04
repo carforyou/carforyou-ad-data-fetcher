@@ -1,0 +1,146 @@
+version: 2.1
+
+orbs:
+  aws-s3: circleci/aws-s3@1.1.0
+  slack: circleci/slack@3.4.2
+
+python: &PYTHON
+  docker:
+    - image: cimg/python
+
+cypress: &CYPRESS
+  docker:
+    - image: cypress/browsers:node14.7.0-chrome84
+
+jobs:
+  test:
+    <<: *CYPRESS
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: npm ci
+      - run: npm ls
+      - run:
+          name: Start server
+          command: npm run dev
+          background: true
+      - run: npm run test
+      - store_artifacts:
+        path: cypress/data
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - slack/notify-on-failure:
+          only_for_branches: master
+
+  fetch_preprod:
+    <<: *CYPRESS
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: fetch:preprod
+      - store_artifacts:
+          path: cypress/data
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - cypress/data
+      - slack/notify-on-failure:
+          only_for_branches: master
+
+  fetch_prod:
+    <<: *CYPRESS
+    resource_class: medium
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: npm fetch:prod
+      - store_artifacts:
+          path: cypress/data
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - cypress/data
+      - slack/notify-on-failure:
+          only_for_branches: master
+
+  store_preprod:
+    <<: *PYTHON
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: ~/
+      - aws-s3/sync:
+          arguments: |
+            --acl public-read
+          aws-region: AWS_REGION
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          from: ~/cypress/data/ads
+          to: "s3://carforyou-preprod-homepage-ads"
+      - slack/notify-on-failure:
+          only_for_branches: master
+
+  store_prod:
+    <<: *PYTHON
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: ~/
+      - aws-s3/sync:
+          arguments: |
+            --acl public-read
+          aws-region: AWS_REGION
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          from: ~/cypress/data/ads
+          to: "s3://carforyou-homepage-ads"
+      - slack/notify-on-failure:
+          only_for_branches: master
+
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
+
+  prod:
+    triggers:
+      - schedule:
+          cron: "0,15,30,45 * * * *"
+          filters:
+            branches:
+              only:
+                - master
+
+    jobs:
+      - fetch_prod:
+      - store_prod:
+          requires:
+            - fetch_prod
+
+  preprod:
+    triggers:
+      - schedule:
+          cron: "0 0,2,4,6,8,10,12,14,16,18,20,22 * * *"
+          filters:
+            branches:
+              only:
+                - master
+
+    jobs:
+      - fetch_preprod:
+      - store_preprod:
+          requires:
+            - fetch_preprod

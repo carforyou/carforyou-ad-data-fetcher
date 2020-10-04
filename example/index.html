@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      type="text/javascript"
+      src="https://tdn.da-services.ch/current/carforyou.js"
+      async
+    ></script>
+    <script>
+      window.TATM = window.TATM || []
+      window.TATM.push(() => window.TATM.init("de-carforyou.ch","hp", {
+        env: "stage-preprod",
+        pagetype: "hp"
+      }))
+
+      window.TATM.push(() => window.TATM.initAdUnits([{
+        adUnitName: "searchbox",
+        targetContainerId: "adHpEmotional",
+        callback: () => {
+          // Used in fetchAds.js to wait for the adslot to be loaded
+          const event = new CustomEvent("adHpEmotionalLoaded")
+          window.document.dispatchEvent(event)
+
+          // Displaying the data for the sake of this example
+          const dataAd = document.getElementById("tatm-adHpEmotional").getAttribute("data-ad")
+          document.getElementById("dataAd").innerHTML = "Data from ad: " + dataAd
+        },
+      }]))
+    </script>
+  </head>
+  <body>
+    <script>
+      window.document.body.addEventListener(
+        "replaceEmotionalTakeoverClickUrl",
+        (data) => {
+          // Displaying the click url for the sake of this example
+          document.getElementById("clickUrl").innerHTML = "Clickurl: " + data
+        },
+        true
+      )
+    </script>
+    <div id="adHpEmotional" />
+    <div id="dataAd" />
+    <div id="clickUrl" />
+    </div>
+  </body>
+</html>

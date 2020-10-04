@@ -1,0 +1,10 @@
+{
+  "public": "example",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/de", "destination": "/index.html" },
+    { "source": "/fr", "destination": "/index.html" },
+    { "source": "/it", "destination": "/index.html" },
+    { "source": "/en", "destination": "/index.html" }
+  ]
+}
