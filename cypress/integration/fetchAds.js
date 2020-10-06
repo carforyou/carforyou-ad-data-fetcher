@@ -9,18 +9,17 @@ describe("Extract ads", () => {
     const fileName = `master-${Cypress.env("ADS_ENV")}-${language}-v3.json`
 
     it(`${language.toUpperCase()}: Extract and store ad images in json file`, () => {
-      cy.visit(`/${language}/?visitorId=ads-default&totmdebug=true`)
-
-      cy.document()
-        .then({ timeout: 20000 }, ($document) => {
+      cy.visit(`/${language}/?visitorId=ads-default&totmdebug=true`, {
+        timeout: 20000,
+        onBeforeLoad: ($window) => {
           return new Cypress.Promise((resolve) => {
             const onAdLoaded = () => {
-              $document.removeEventListener("adHpEmotionalLoaded", onAdLoaded)
+              $window.document.removeEventListener("adHpEmotionalLoaded", onAdLoaded)
               resolve()
             }
-            $document.addEventListener("adHpEmotionalLoaded", onAdLoaded, true)
+            $$window.document.addEventListener("adHpEmotionalLoaded", onAdLoaded, true)
           })
-        })
+        }})
         .then(() => {
           cy.get("#tatm-adHpEmotional")
           cy.get("#tatm-adHpEmotional[data-ad]", { timeout: 10000 }).then(
