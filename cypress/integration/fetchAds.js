@@ -5,12 +5,14 @@ describe("Extract ads", () => {
     throw new Error("Please make sure to set CYPRESS_ADS_ENV");
   }
 
-  ["de", "fr", "it", "en"].forEach((language) => {
+  //, "fr", "it", "en"
+  ["de"].forEach((language) => {
     const fileName = `master-${Cypress.env("ADS_ENV")}-${language}-v3.json`;
 
     it(`${language.toUpperCase()}: Extract and store ad images in json file`, () => {
-      cy.visit(`/${language}/?visitorId=ads-default&totmdebug=true`)
-        .then({ timeout: 20000 }, ($window) => {
+      cy.visit(`/${language}/?visitorId=ads-default&totmdebug=true`, {
+        timeout: 20000,
+        onBeforeLoad: ($window) => {
           return new Cypress.Promise((resolve) => {
             const onAdLoaded = () => {
               $window.document.removeEventListener(
@@ -27,29 +29,29 @@ describe("Extract ads", () => {
               true
             );
           });
-        })
-        .then(() => {
-          cy.get("#tatm-adHpEmotional");
-          cy.get("#tatm-adHpEmotional[data-ad]", { timeout: 10000 }).then(
-            ($ad) => {
-              const ad =
-                $ad[0].dataset && $ad[0].dataset.ad
-                  ? JSON.parse($ad[0].dataset.ad)
-                  : {};
-              cy.writeFile(`${targetPath}${fileName}`, ad);
+        },
+      }).then(() => {
+        cy.get("#tatm-adHpEmotional");
+        cy.get("#tatm-adHpEmotional[data-ad]", { timeout: 10000 }).then(
+          ($ad) => {
+            const ad =
+              $ad[0].dataset && $ad[0].dataset.ad
+                ? JSON.parse($ad[0].dataset.ad)
+                : {};
+            cy.writeFile(`${targetPath}${fileName}`, ad);
 
-              // Legacy suppport
-              if (language === "de") {
-                const fileNameV0 = "master.json";
-                cy.writeFile(`${targetPath}${fileNameV0}`, {});
-                const fileNameV1 = `master-${Cypress.env("ADS_ENV")}.json`;
-                cy.writeFile(`${targetPath}${fileNameV1}`, {});
-                const fileNameV2 = `master-${Cypress.env("ADS_ENV")}-v2.json`;
-                cy.writeFile(`${targetPath}${fileNameV2}`, ad);
-              }
+            // Legacy suppport
+            if (language === "de") {
+              const fileNameV0 = "master.json";
+              cy.writeFile(`${targetPath}${fileNameV0}`, {});
+              const fileNameV1 = `master-${Cypress.env("ADS_ENV")}.json`;
+              cy.writeFile(`${targetPath}${fileNameV1}`, {});
+              const fileNameV2 = `master-${Cypress.env("ADS_ENV")}-v2.json`;
+              cy.writeFile(`${targetPath}${fileNameV2}`, ad);
             }
-          );
-        });
+          }
+        );
+      });
     });
   });
 });

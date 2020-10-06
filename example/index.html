@@ -18,6 +18,7 @@
         targetContainerId: "adHpEmotional",
         callback: () => {
           // Used in fetchAds.js to wait for the adslot to be loaded
+          console.log("Dispatching loaded event", Date.now())
           const event = new CustomEvent("adHpEmotionalLoaded")
           window.document.dispatchEvent(event)
 
