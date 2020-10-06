@@ -16,8 +16,7 @@ jobs:
   test:
     <<: *CYPRESS
     steps:
-      - attach_workspace:
-          at: ~/
+      - checkout
       - run: npm ci
       - run: npm ls
       - run:
