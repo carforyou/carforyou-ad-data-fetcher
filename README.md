@@ -29,7 +29,7 @@ ls cypress/data/ads/*.json
 npm run test
 ```
 
-## Debugging
+## Debugging
 
 The console output, including the one from `totmdebug` is visible in the cypress logs when using chrome for cypress.
 
@@ -40,7 +40,7 @@ https://carforyou-dev-homepage-ads.s3.eu-central-1.amazonaws.com/master-dev.json
 Content is modified manually for testing purposes and not relying on txma to serve an actual ad.
 
 ### stage-preprod
-URL: https://carforyou-preprod-homepage-ads.s3.eu-central-1.amazonaws.com/master-stage-preprod.json
+https://carforyou-preprod-homepage-ads.s3.eu-central-1.amazonaws.com/master-stage-preprod.json
 File content is written by circeci
 
 ### stage-prod
