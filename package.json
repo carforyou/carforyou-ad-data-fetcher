@@ -9,7 +9,7 @@
     "dev": "npx serve -l 3333"
   },
   "author": "CAR FOR YOU",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "cypress": "^5.3.0",
     "cypress-log-to-output": "^1.1.2"
