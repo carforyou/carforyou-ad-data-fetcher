@@ -17,8 +17,14 @@ jobs:
     <<: *CYPRESS
     steps:
       - checkout
+      - restore_cache:
+          key: v1-npm-{{ checksum "package-lock.json" }}
       - run: npm ci
       - run: npm ls
+      - save_cache:
+          key: v3-npm-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
       - run:
           name: Start server
           command: npm run dev
