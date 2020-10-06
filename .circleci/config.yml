@@ -16,8 +16,7 @@ jobs:
   test:
     <<: *CYPRESS
     steps:
-      - attach_workspace:
-          at: ~/
+      - checkout
       - run: npm ci
       - run: npm ls
       - run:
@@ -26,7 +25,7 @@ jobs:
           background: true
       - run: npm run test
       - store_artifacts:
-        path: cypress/data
+          path: cypress/data
       - store_artifacts:
           path: cypress/videos
       - store_artifacts:
@@ -108,7 +107,6 @@ jobs:
       - slack/notify-on-failure:
           only_for_branches: master
 
-
 workflows:
   version: 2
   test:
@@ -125,7 +123,7 @@ workflows:
                 - master
 
     jobs:
-      - fetch_prod:
+      - fetch_prod
       - store_prod:
           requires:
             - fetch_prod
@@ -140,7 +138,7 @@ workflows:
                 - master
 
     jobs:
-      - fetch_preprod:
+      - fetch_preprod
       - store_preprod:
           requires:
             - fetch_preprod
