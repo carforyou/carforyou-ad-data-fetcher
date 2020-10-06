@@ -26,7 +26,7 @@ jobs:
           background: true
       - run: npm run test
       - store_artifacts:
-        path: cypress/data
+          path: cypress/data
       - store_artifacts:
           path: cypress/videos
       - store_artifacts:
@@ -125,7 +125,7 @@ workflows:
                 - master
 
     jobs:
-      - fetch_prod:
+      - fetch_prod
       - store_prod:
           requires:
             - fetch_prod
@@ -140,7 +140,7 @@ workflows:
                 - master
 
     jobs:
-      - fetch_preprod:
+      - fetch_preprod
       - store_preprod:
           requires:
             - fetch_preprod
