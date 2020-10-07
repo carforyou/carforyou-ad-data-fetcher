@@ -25,12 +25,18 @@ jobs:
           key: v1-npm-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
       - slack/notify-on-failure:
         only_for_branches: master
 
   test:
     <<: *CYPRESS
     steps:
+      - attach_workspace:
+          at: ~/
       - run:
           name: Start server
           command: npm run dev
