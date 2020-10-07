@@ -8,6 +8,10 @@ cypress: &CYPRESS
   docker:
     - image: cypress/browsers:node14.7.0-chrome84
 
+python: &PYTHON
+  docker:
+    - image: 'cimg/python:3.6'
+
 jobs:
   install:
     <<: *CYPRESS
@@ -90,6 +94,7 @@ jobs:
           only_for_branches: master
 
   store_preprod:
+    <<: *PYTHON
     resource_class: small
     steps:
       - attach_workspace:
@@ -106,6 +111,7 @@ jobs:
           only_for_branches: master
 
   store_prod:
+    <<: *PYTHON
     resource_class: small
     steps:
       - attach_workspace:
