@@ -144,7 +144,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - review
 
     jobs:
       - install
@@ -162,7 +162,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - review
 
     jobs:
       - install
