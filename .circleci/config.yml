@@ -13,7 +13,7 @@ cypress: &CYPRESS
     - image: cypress/browsers:node14.7.0-chrome84
 
 jobs:
-  test:
+  install:
     <<: *CYPRESS
     steps:
       - checkout
@@ -22,9 +22,15 @@ jobs:
       - run: npm ci
       - run: npm ls
       - save_cache:
-          key: v3-npm-{{ checksum "package-lock.json" }}
+          key: v1-npm-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
+      - slack/notify-on-failure:
+        only_for_branches: master
+
+  test:
+    <<: *CYPRESS
+    steps:
       - run:
           name: Start server
           command: npm run dev
@@ -118,7 +124,10 @@ workflows:
   version: 2
   test:
     jobs:
+      - install
       - test
+          requires:
+            - install
 
   prod:
     triggers:
@@ -130,7 +139,10 @@ workflows:
                 - master
 
     jobs:
+      - install
       - fetch_prod
+          requires:
+            - install
       - store_prod:
           requires:
             - fetch_prod
@@ -145,7 +157,10 @@ workflows:
                 - master
 
     jobs:
+      - install
       - fetch_preprod
+          requires:
+            - install
       - store_preprod:
           requires:
             - fetch_preprod
