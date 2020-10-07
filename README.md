@@ -19,8 +19,8 @@ Have a look at the [example](./example).
 
 ## Usage
 ```
-npm fetch:prod
-CYPRESS_AUTH_USER=abc CYPRESS_AUTH_PASS=123 npm fetch:preprod
+npm run fetch:prod
+CYPRESS_AUTH_USER=abc CYPRESS_AUTH_PASS=123 npm run fetch:preprod
 ls cypress/data/ads/*.json
 ```
 
