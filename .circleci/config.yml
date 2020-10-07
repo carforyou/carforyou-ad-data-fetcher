@@ -125,7 +125,7 @@ workflows:
   test:
     jobs:
       - install
-      - test
+      - test:
           requires:
             - install
 
@@ -140,7 +140,7 @@ workflows:
 
     jobs:
       - install
-      - fetch_prod
+      - fetch_prod:
           requires:
             - install
       - store_prod:
@@ -158,7 +158,7 @@ workflows:
 
     jobs:
       - install
-      - fetch_preprod
+      - fetch_preprod:
           requires:
             - install
       - store_preprod:
