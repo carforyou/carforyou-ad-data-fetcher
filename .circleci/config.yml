@@ -4,10 +4,6 @@ orbs:
   aws-s3: circleci/aws-s3@1.1.0
   slack: circleci/slack@3.4.2
 
-python: &PYTHON
-  docker:
-    - image: cimg/python
-
 cypress: &CYPRESS
   docker:
     - image: cypress/browsers:node14.7.0-chrome84
@@ -94,7 +90,6 @@ jobs:
           only_for_branches: master
 
   store_preprod:
-    <<: *PYTHON
     resource_class: small
     steps:
       - attach_workspace:
@@ -111,7 +106,6 @@ jobs:
           only_for_branches: master
 
   store_prod:
-    <<: *PYTHON
     resource_class: small
     steps:
       - attach_workspace:
