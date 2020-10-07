@@ -65,7 +65,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: npm fetch:prod
+      - run: npm run fetch:prod
       - store_artifacts:
           path: cypress/data
       - store_artifacts:
