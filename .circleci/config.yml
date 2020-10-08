@@ -1,19 +1,19 @@
 version: 2.1
 
 orbs:
-  aws-s3: circleci/aws-s3@1.1.0
+  aws-s3: circleci/aws-s3@2.0.0
   slack: circleci/slack@3.4.2
-
-python: &PYTHON
-  docker:
-    - image: cimg/python
 
 cypress: &CYPRESS
   docker:
     - image: cypress/browsers:node14.7.0-chrome84
 
+python: &PYTHON
+  docker:
+    - image: 'cimg/python:3.6'
+
 jobs:
-  test:
+  install:
     <<: *CYPRESS
     steps:
       - checkout
@@ -22,9 +22,23 @@ jobs:
       - run: npm ci
       - run: npm ls
       - save_cache:
-          key: v3-npm-{{ checksum "package-lock.json" }}
+          key: v1-npm-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
+            - ~/.cache
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+            - .cache
+      - slack/notify-on-failure:
+        only_for_branches: master
+
+  test:
+    <<: *CYPRESS
+    steps:
+      - attach_workspace:
+          at: ~/
       - run:
           name: Start server
           command: npm run dev
@@ -45,7 +59,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: fetch:preprod
+      - run: npm run fetch:preprod
       - store_artifacts:
           path: cypress/data
       - store_artifacts:
@@ -118,19 +132,25 @@ workflows:
   version: 2
   test:
     jobs:
-      - test
+      - install
+      - test:
+          requires:
+            - install
 
   prod:
     triggers:
       - schedule:
-          cron: "0,15,30,45 * * * *"
+          cron: "0,30 0,1,2,4,6,8,10,12,14,16,18,20,22,23 * * *"
           filters:
             branches:
               only:
                 - master
 
     jobs:
-      - fetch_prod
+      - install
+      - fetch_prod:
+          requires:
+            - install
       - store_prod:
           requires:
             - fetch_prod
@@ -145,7 +165,10 @@ workflows:
                 - master
 
     jobs:
-      - fetch_preprod
+      - install
+      - fetch_preprod:
+          requires:
+            - install
       - store_preprod:
           requires:
             - fetch_preprod
