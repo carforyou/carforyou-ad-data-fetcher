@@ -55,7 +55,7 @@ jobs:
 
   fetch_preprod:
     <<: *CYPRESS
-    resource_class: medium
+    resource_class: large
     steps:
       - attach_workspace:
           at: ~/
@@ -75,7 +75,7 @@ jobs:
 
   fetch_prod:
     <<: *CYPRESS
-    resource_class: medium
+    resource_class: large
     steps:
       - attach_workspace:
           at: ~/
