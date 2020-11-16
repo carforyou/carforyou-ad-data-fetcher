@@ -26,19 +26,15 @@ jobs:
           paths:
             - ~/.npm
             - ~/.cache
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project
-            - .cache
       - slack/notify-on-failure:
-        only_for_branches: master
+          only_for_branches: master
 
   test:
     <<: *CYPRESS
     steps:
-      - attach_workspace:
-          at: ~/
+      - checkout
+      - restore_cache:
+          key: v1-npm-{{ checksum "package-lock.json" }}
       - run:
           name: Start server
           command: npm run dev
@@ -57,8 +53,9 @@ jobs:
     <<: *CYPRESS
     resource_class: large
     steps:
-      - attach_workspace:
-          at: ~/
+      - checkout
+      - restore_cache:
+          key: v1-npm-{{ checksum "package-lock.json" }}
       - run: npm run fetch:preprod
       - store_artifacts:
           path: cypress/data
@@ -77,8 +74,9 @@ jobs:
     <<: *CYPRESS
     resource_class: large
     steps:
-      - attach_workspace:
-          at: ~/
+      - checkout
+      - restore_cache:
+          key: v1-npm-{{ checksum "package-lock.json" }}
       - run: npm run fetch:prod
       - store_artifacts:
           path: cypress/data
