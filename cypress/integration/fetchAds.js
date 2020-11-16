@@ -17,7 +17,7 @@ describe("Extract ads", () => {
               $window.document.removeEventListener("adHpEmotionalLoaded", onAdLoaded)
               resolve()
             }
-            $$window.document.addEventListener("adHpEmotionalLoaded", onAdLoaded, true)
+            $window.document.addEventListener("adHpEmotionalLoaded", onAdLoaded, true)
           })
         }})
         .then(() => {
