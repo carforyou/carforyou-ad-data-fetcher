@@ -13,5 +13,7 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+require('cypress-terminal-report/src/installLogsCollector')()
+
 // Import commands.js using ES2015 syntax:
 import './commands'
