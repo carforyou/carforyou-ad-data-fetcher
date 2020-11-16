@@ -18,11 +18,11 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-npm-{{ checksum "package-lock.json" }}
+          key: v2-npm-{{ checksum "package-lock.json" }}
       - run: npm ci
       - run: npm ls
       - save_cache:
-          key: v1-npm-{{ checksum "package-lock.json" }}
+          key: v2-npm-{{ checksum "package-lock.json" }}
           paths:
             - ~/.npm
             - ~/.cache
@@ -34,7 +34,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-npm-{{ checksum "package-lock.json" }}
+          key: v2-npm-{{ checksum "package-lock.json" }}
       - run:
           name: Start server
           command: npm run dev
@@ -55,7 +55,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-npm-{{ checksum "package-lock.json" }}
+          key: v2-npm-{{ checksum "package-lock.json" }}
       - run: npm run fetch:preprod
       - store_artifacts:
           path: cypress/data
@@ -76,7 +76,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-npm-{{ checksum "package-lock.json" }}
+          key: v2-npm-{{ checksum "package-lock.json" }}
       - run: npm run fetch:prod
       - store_artifacts:
           path: cypress/data
