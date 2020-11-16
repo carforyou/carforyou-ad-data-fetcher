@@ -22,7 +22,7 @@ describe("Extract ads", () => {
         }})
         .then(() => {
           cy.get("#tatm-adHpEmotional")
-          cy.get("#tatm-adHpEmotional[data-ad]", { timeout: 10000 }).then(
+          cy.get("#tatm-adHpEmotional[data-ad]", { timeout: 20000 }).then(
             ($ad) => {
               const ad =
                 $ad[0].dataset && $ad[0].dataset.ad
