@@ -5,7 +5,8 @@
     "*.googletagmanager.com",
     "fonts.googleapis.com",
     "*.criteo.com",
-    "*.criteo.net"
+    "*.criteo.net",
+    "*.launchdarkly.com"
   ],
   "retries": {
     "runMode": 1,
