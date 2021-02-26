@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "description": "Prefetches data in a headless browser so we can server-side render ads",
   "scripts": {
+    "debug:preprod": "CYPRESS_BASE_URL=https://preprod.carforyou.ch CYPRESS_ADS_ENV=debug-stage-preprod cypress open",
     "fetch:preprod": "CYPRESS_BASE_URL=https://preprod.carforyou.ch CYPRESS_ADS_ENV=stage-preprod cypress run --browser=chrome",
     "fetch:prod": "CYPRESS_BASE_URL=https://www.carforyou.ch CYPRESS_ADS_ENV=stage-prod cypress run --browser=chrome",
+    "debug:prod": "CYPRESS_BASE_URL=https://www.carforyou.ch CYPRESS_ADS_ENV=debug-stage-prod  cypress open",
     "test": "CYPRESS_ADS_ENV=stage-preprod cypress run --browser=chrome",
     "dev": "npx serve -l 3333"
   },
   "author": "CAR FOR YOU",
   "license": "MIT",
   "dependencies": {
-    "cypress": "^6.0.0",
+    "cypress": "^6.5.0",
     "cypress-terminal-report": "^2.1.0"
   },
   "devDependencies": {
