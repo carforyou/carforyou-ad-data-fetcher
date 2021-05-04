@@ -29,6 +29,7 @@ describe("Extract ads", () => {
         },
       }).then(() => {
         cy.get('button[id="onetrust-accept-btn-handler"]').click()
+        cy.reload(true)
         cy.get("#tatm-adHpEmotional")
         cy.get("#tatm-adHpEmotional[data-ad]", { timeout: 20000 }).then(
           ($ad) => {
