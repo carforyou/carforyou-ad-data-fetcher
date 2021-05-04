@@ -71,15 +71,6 @@ describe("Extract ads", () => {
             cy.writeFile(`${targetPath}${fileName}`, ad)
           })
 
-          cy.document().then((doc) => {
-            cy.log("QUERIED ON DOCUMENT dataset")
-            cy.log(
-              doc
-                .getElementById("tatm-adHpEmotional")
-                .attributes.getNamedItem("data-ad").textContent
-            )
-          })
-
           // Legacy suppport
           if (language === "de") {
             const fileNameV0 = "master.json"
