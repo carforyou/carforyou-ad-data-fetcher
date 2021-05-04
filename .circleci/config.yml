@@ -10,7 +10,7 @@ cypress: &CYPRESS
 
 python: &PYTHON
   docker:
-    - image: "cimg/python:3.9"
+    - image: 'cimg/python:3.9'
 
 jobs:
   install:
@@ -127,6 +127,7 @@ jobs:
       - slack/notify-on-failure:
           only_for_branches: master
 
+
 workflows:
   version: 2
   test:
@@ -139,7 +140,7 @@ workflows:
   prod:
     triggers:
       - schedule:
-          cron: "0,10,20,30,40,50 0,1,2,4,6,8,10,12,14,16,18,20,22,23 * * *"
+          cron: "0,30 0,1,2,4,6,8,10,12,14,16,18,20,22,23 * * *"
           filters:
             branches:
               only:

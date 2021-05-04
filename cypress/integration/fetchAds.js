@@ -5,7 +5,7 @@ describe("Extract ads", () => {
     throw new Error("Please make sure to set CYPRESS_ADS_ENV")
   }
 
-  ;["de"].forEach((language) => {
+  ;["de", "fr", "it", "en"].forEach((language) => {
     const fileName = `master-${Cypress.env("ADS_ENV")}-${language}-v3.json`
 
     it(`${language.toUpperCase()}: Extract and store ad images in json file`, () => {
@@ -29,7 +29,6 @@ describe("Extract ads", () => {
         },
       }).then(() => {
         cy.get('button[id="onetrust-accept-btn-handler"]').click()
-        cy.reload(true)
         cy.get("#tatm-adHpEmotional")
         cy.get("div .ad-loaded > #tatm-adHpEmotional[data-ad]", {
           timeout: 20000,
@@ -38,47 +37,7 @@ describe("Extract ads", () => {
             $ad[0].dataset && $ad[0].dataset.ad
               ? JSON.parse($ad[0].dataset.ad)
               : {}
-          cy.log("condition")
-          cy.log(!!($ad[0].dataset && $ad[0].dataset.ad))
-          cy.log("has node")
-          cy.log(!!$ad[0])
-          cy.log("has dataset")
-          cy.log(!!$ad[0].dataset)
-          cy.log("has dataset ad")
-          cy.log(!!$ad[0].dataset.ad)
-          cy.log("dataset")
-          cy.log($ad[0].dataset.ad)
           cy.writeFile(`${targetPath}${fileName}`, ad)
-
-          cy.get("div .ad-loaded > #tatm-adHpEmotional[data-ad]", {
-            timeout: 20000,
-          }).then(($ad) => {
-            const ad =
-              $ad[0].dataset && $ad[0].dataset.ad
-                ? JSON.parse($ad[0].dataset.ad)
-                : {}
-
-            cy.log("INSIDE condition")
-            cy.log(!!($ad[0].dataset && $ad[0].dataset.ad))
-            cy.log("INSIDE has node")
-            cy.log(!!$ad[0])
-            cy.log("INSIDE has dataset")
-            cy.log(!!$ad[0].dataset)
-            cy.log("INSIDE has dataset ad")
-            cy.log(!!$ad[0].dataset.ad)
-            cy.log("INSIDE dataset")
-            cy.log($ad[0].dataset.ad)
-            cy.writeFile(`${targetPath}${fileName}`, ad)
-          })
-
-          cy.document().then((doc) => {
-            cy.log("QUERIED ON DOCUMENT dataset")
-            cy.log(
-              doc
-                .getElementById("tatm-adHpEmotional")
-                .attributes.getNamedItem("data-ad").textContent
-            )
-          })
 
           // Legacy suppport
           if (language === "de") {
