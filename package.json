@@ -13,7 +13,7 @@
   "author": "CAR FOR YOU",
   "license": "MIT",
   "dependencies": {
-    "cypress": "^7.0.0",
+    "cypress": "^6.9.1",
     "cypress-terminal-report": "^2.1.0"
   },
   "devDependencies": {
