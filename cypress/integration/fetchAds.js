@@ -5,7 +5,7 @@ describe("Extract ads", () => {
     throw new Error("Please make sure to set CYPRESS_ADS_ENV")
   }
 
-  ;["de", "fr", "it", "en"].forEach((language) => {
+  ;["de"].forEach((language) => {
     const fileName = `master-${Cypress.env("ADS_ENV")}-${language}-v3.json`
 
     it(`${language.toUpperCase()}: Extract and store ad images in json file`, () => {
@@ -37,6 +37,17 @@ describe("Extract ads", () => {
               $ad[0].dataset && $ad[0].dataset.ad
                 ? JSON.parse($ad[0].dataset.ad)
                 : {}
+            debugger
+            cy.log("condition")
+            cy.log(!!($ad[0].dataset && $ad[0].dataset.ad))
+            cy.log("has node")
+            cy.log(!!$ad[0])
+            cy.log("has dataset")
+            cy.log(!!$ad[0].dataset)
+            cy.log("has dataset ad")
+            cy.log(!!$ad[0].dataset.ad)
+            cy.log("dataset")
+            cy.log($ad[0].dataset.ad)
             cy.writeFile(`${targetPath}${fileName}`, ad)
 
             // Legacy suppport
