@@ -38,16 +38,6 @@ describe("Extract ads", () => {
               ? JSON.parse($ad[0].dataset.ad)
               : {}
           cy.writeFile(`${targetPath}${fileName}`, ad)
-
-          // Legacy suppport
-          if (language === "de") {
-            const fileNameV0 = "master.json"
-            cy.writeFile(`${targetPath}${fileNameV0}`, {})
-            const fileNameV1 = `master-${Cypress.env("ADS_ENV")}.json`
-            cy.writeFile(`${targetPath}${fileNameV1}`, {})
-            const fileNameV2 = `master-${Cypress.env("ADS_ENV")}-v2.json`
-            cy.writeFile(`${targetPath}${fileNameV2}`, ad)
-          }
         })
       })
     })
