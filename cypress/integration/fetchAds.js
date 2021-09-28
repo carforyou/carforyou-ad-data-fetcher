@@ -8,7 +8,6 @@ describe("Extract ads", () => {
   Cypress.Cookies.defaults({
     preserve: ["eupubconsent-v2"],
   })
-
   ;["de", "fr", "it", "en"].forEach((language) => {
     const fileName = `master-${Cypress.env("ADS_ENV")}-${language}-v3.json`
 
@@ -32,22 +31,22 @@ describe("Extract ads", () => {
           })
         },
       }).then(() => {
-        cy.getCookie("eupubconsent-v2").then(cookie => {
-          if(!cookie) {
+        cy.getCookie("eupubconsent-v2").then((cookie) => {
+          if (!cookie) {
             cy.get("#onetrust-banner-sdk").within(() => {
               cy.get('button[id="onetrust-accept-btn-handler"]').click()
             })
+            cy.get("#tatm-adHpmotional")
+            cy.get("div .ad-loaded > #tatm-adHpEmotional[data-ad]", {
+              timeout: 20000,
+            }).then(($ad) => {
+              const ad =
+                $ad[0].dataset && $ad[0].dataset.ad
+                  ? JSON.parse($ad[0].dataset.ad)
+                  : {}
+              cy.writeFile(`${targetPath}${fileName}`, ad)
+            })
           }
-        })
-        cy.get("#tatm-adHpEmotional")
-        cy.get("div .ad-loaded > #tatm-adHpEmotional[data-ad]", {
-          timeout: 20000,
-        }).then(($ad) => {
-          const ad =
-            $ad[0].dataset && $ad[0].dataset.ad
-              ? JSON.parse($ad[0].dataset.ad)
-              : {}
-          cy.writeFile(`${targetPath}${fileName}`, ad)
         })
       })
     })
