@@ -38,7 +38,7 @@ describe("Extract ads", () => {
             })
           }
 
-          cy.get("#tatm-adHpmotional")
+          cy.get("#tatm-adHpEmotional")
             cy.get("div .ad-loaded > #tatm-adHpEmotional[data-ad]", {
               timeout: 20000,
             }).then(($ad) => {
