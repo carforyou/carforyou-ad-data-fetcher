@@ -36,7 +36,9 @@ describe("Extract ads", () => {
             cy.get("#onetrust-banner-sdk").within(() => {
               cy.get('button[id="onetrust-accept-btn-handler"]').click()
             })
-            cy.get("#tatm-adHpmotional")
+          }
+
+          cy.get("#tatm-adHpEmotional")
             cy.get("div .ad-loaded > #tatm-adHpEmotional[data-ad]", {
               timeout: 20000,
             }).then(($ad) => {
@@ -46,7 +48,6 @@ describe("Extract ads", () => {
                   : {}
               cy.writeFile(`${targetPath}${fileName}`, ad)
             })
-          }
         })
       })
     })
