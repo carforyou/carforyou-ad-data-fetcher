@@ -10,7 +10,7 @@ cypress: &CYPRESS
 
 python: &PYTHON
   docker:
-    - image: "cimg/python:3.9"
+    - image: "cimg/python:3.10"
 
 jobs:
   install:
