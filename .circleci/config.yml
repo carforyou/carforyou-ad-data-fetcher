@@ -70,8 +70,6 @@ jobs:
           root: ~/project
           paths:
             - cypress/data
-      - slack/notify-on-failure:
-          only_for_branches: master
 
   fetch_prod:
     <<: *CYPRESS
@@ -90,8 +88,6 @@ jobs:
           root: ~/project
           paths:
             - cypress/data
-      - slack/notify-on-failure:
-          only_for_branches: master
 
   store_preprod:
     <<: *PYTHON
