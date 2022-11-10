@@ -17,6 +17,6 @@
     "cypress-terminal-report": "^2.1.0"
   },
   "devDependencies": {
-    "serve": "^14.0.0"
+    "serve": "^14.1.1"
   }
 }
